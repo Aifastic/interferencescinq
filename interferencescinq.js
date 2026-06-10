@@ -64,7 +64,7 @@ let modoDifference = false;
 
 
 function preload(){
-  fuenteTexto = loadFont("data/StonyIslandNF.ttf");
+  fuenteTexto = loadFont("/data/STONIN_.TTF");
   
   
 }
