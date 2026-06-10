@@ -6,9 +6,15 @@ let fuenteTexto;
 
 //CONFIG INICIAL SONIDO
 
-//-------------SONIDO GENERAL-----------------
-let mic;
-let audioIniciado = false;
+//ruido
+
+//-------ESTADOS Y EVENTOS DE SONIDO-----
+let haySonido = false;
+let antesHabiaSonido = false;
+let empezoElSonido = false;
+let terminoElSonido = false;
+let umbralRuido = 0.1;
+let umbralDuracionSonido = 1100;
 
 //amplitud
 let AMP_MIN = 0.0;
@@ -31,6 +37,7 @@ let altura = 0;
 let difAltura = 0;
 
 //VARIABLES SONIDO
+let mic;
 let amp = 0;
 
 let pisoAmp = Infinity;
@@ -38,14 +45,7 @@ let techoAmp = -Infinity;
 
 let gestorAmp;
 let gestorFrec;
-
-//-------ESTADOS Y EVENTOS DE SONIDO-----
-let haySonido = false;
-let antesHabiaSonido = false;
-let empezoElSonido = false;
-let terminoElSonido = false;
-let umbralRuido = 0.1;
-let umbralDuracionSonido = 1100;
+let audioIniciado = false;
 
 //-------TEMPORIZADORES----
 
@@ -66,7 +66,6 @@ let modoDifference = false;
 function preload(){
   fuenteTexto = loadFont("/data/STONIN_.TTF");
   
-  
 }
 
 function setup() {
@@ -79,7 +78,7 @@ function setup() {
   obra = new Obra();
   obra.iniciar();
   
-  
+  //classifier.classify(gotResult); 
 }
 
 
@@ -181,12 +180,6 @@ function draw() {
   if (estado == "comenzar"){
     if (audioIniciado == true){
       estado = "obra";
-    }else{
-      fill(0);
-      textFont(fuenteTexto);
-      textAlign(CENTER, CENTER);
-      textSize(40);
-      text("Hacé click para comenzar", width / 2, height / 2);
     }
   }else if (estado == "obra"){
     obra.dibujar(intensidad, notaMidi, haySonido, durSonido, umbralDuracionSonido);
@@ -225,34 +218,34 @@ function draw() {
 
 }
 
-//-------INICIALIZACION DE AUDIO-----
 async function iniciarAudio() {
-  if (audioIniciado) {
+  if (audioIniciado == true) {
     return;
   }
 
   try {
-    // Requisito del navegador: activar WebAudio con interacción del usuario.
+    // p5/WebAudio requiere gesto de usuario antes de habilitar entrada de micrófono.
     await userStartAudio();
     mic.start(
       () => {
-        audioIniciado = true;
-        marcaInicioSonido = millis();
-        marcaFinSonido = millis();
-        // Pitch detection se inicializa cuando el stream del micrófono ya existe.
-        startPitch();
+      // Se habilita el flujo principal recién cuando el micrófono quedó operativo.
+      audioIniciado = true;
+      marcaInicioSonido = millis();
+      marcaFinSonido = millis();
+      // Pitch detection se inicializa cuando el stream del micrófono ya existe.
+      startPitch();
 
-        classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json', () => {
+      classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json'), () => {
           classifier.classify(gotResult);
-        });
-      },
-
-      
+      }
+    }
+    ,
       (error) => {
-        console.error("No se pudo iniciar el microfono", error);
-      },
+      console.error("No se pudo iniciar el microfono", error);
+    }
     );
-  } catch (error) {
+  }
+  catch (error) {
     console.error("No se pudo habilitar el contexto de audio", error);
   }
 }
