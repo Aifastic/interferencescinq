@@ -65,8 +65,8 @@ let modoDifference = false;
 
 function preload(){
   fuenteTexto = loadFont("/data/StonyIslandNF.ttf");
-  // enlace directo archivo.json
-  classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json');
+  
+  
 }
 
 function setup() {
@@ -79,7 +79,7 @@ function setup() {
   obra = new Obra();
   obra.iniciar();
   
-  classifier.classify(gotResult); 
+  
 }
 
 
@@ -241,7 +241,13 @@ async function iniciarAudio() {
         marcaFinSonido = millis();
         // Pitch detection se inicializa cuando el stream del micrófono ya existe.
         startPitch();
+
+        classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json', () => {
+          classifier.classify(gotResult);
+        });
       },
+
+      
       (error) => {
         console.error("No se pudo iniciar el microfono", error);
       },
