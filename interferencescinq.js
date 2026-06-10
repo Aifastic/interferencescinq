@@ -228,21 +228,21 @@ async function iniciarAudio() {
     await userStartAudio();
     mic.start(
       () => {
-      // Se habilita el flujo principal recién cuando el micrófono quedó operativo.
-      audioIniciado = true;
-      marcaInicioSonido = millis();
-      marcaFinSonido = millis();
-      // Pitch detection se inicializa cuando el stream del micrófono ya existe.
-      startPitch();
+        // Se habilita el flujo principal recién cuando el micrófono quedó operativo.
+        audioIniciado = true;
+        marcaInicioSonido = millis();
+        marcaFinSonido = millis();
+        // Pitch detection se inicializa cuando el stream del micrófono ya existe.
+        startPitch();
 
-      classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json'), () => {
+       
+        classifier = ml5.soundClassifier('https://teachablemachine.withgoogle.com/models/ykJlJOKUs/model.json', () => {
           classifier.classify(gotResult);
-      }
-    }
-    ,
+        });
+      },
       (error) => {
-      console.error("No se pudo iniciar el microfono", error);
-    }
+        console.error("No se pudo iniciar el microfono", error);
+      }
     );
   }
   catch (error) {
