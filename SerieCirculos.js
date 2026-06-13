@@ -4,6 +4,7 @@ class SerieCirculos {
     this.cant = round(random(6,11));
     this.posXCirculosConcentricos = posXCirculosConcentricos;
     this.posYCirculosConcentricos = posYCirculosConcentricos;
+    this.umbralDuracionAplauso = 470;
   }
 
   iniciar() {
@@ -15,8 +16,8 @@ class SerieCirculos {
   dibujar(intensidad, haySonido) {
     for (let i=0; i<=this.cant; i++) {
       let tam;
-      let mapInt = map(intensidad, 0,0.3,0,25);
-      if (haySonido == true){ 
+      let mapInt = map(intensidad, 0,0.3,0,10);
+      if (haySonido == true && durSonido >= this.umbralDuracionAplauso){ 
         tam = (this.cant-i) * 20 + mapInt;
       }else{
         tam = (this.cant-i) * 20;

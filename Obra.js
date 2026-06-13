@@ -35,7 +35,7 @@ class Obra {
 
     for (let i=0; i<this.seriesCirculos.length; i++) {
       this.seriesCirculos[i].iniciar();
-      this.seriesCirculos[i].dibujar(intensidad, haySonido);
+      this.seriesCirculos[i].dibujar(intensidad, haySonido, durSonido);
     }
 
     for ( let i=0; i<this.cantCirculosTinte; i++ ) {
