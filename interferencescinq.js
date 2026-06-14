@@ -8,10 +8,10 @@ let fuenteMonitor;
 
 //-------------CONFIGURACION INICIAL-----------------
 let AMP_MIN = 0.001;
-let AMP_MAX = 0.13;
+let AMP_MAX = 0.563;
 
 let NOTA_MIN = 48;
-let NOTA_MAX = 60;
+let NOTA_MAX = 76;
 
 let calibrandoAmp = true;
 let monitor = false;

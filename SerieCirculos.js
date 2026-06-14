@@ -16,7 +16,7 @@ class SerieCirculos {
   dibujar(intensidad, haySonido) {
     for (let i=0; i<=this.cant; i++) {
       let tam;
-      let mapInt = map(intensidad, 0,0.3,0,10);
+      let mapInt = map(intensidad, 0.1,1,0,15);
       if (haySonido == true && durSonido >= this.umbralDuracionAplauso){ 
         tam = (this.cant-i) * 20 + mapInt;
       }else{

@@ -8,18 +8,7 @@ class CirculoTinte {
     this.vel = random(3, 7);
     this.tamCirculosTinte = round(random(60, 200));
     this.variacionAngular = 15;
-  }
-
-  menorDistAngular(origen, destino) {
-    let origenNorm = rangoTwoPi(origen);
-    let destinoNorm = rangoTwoPi(destino);
-
-    let diferencia = destinoNorm - origenNorm;
-
-    if (diferencia>PI) {
-      diferencia -= TWO_PI;
-    }
-    return diferencia;
+    this.estado = "quieto";
   }
 
   dibujarCirculo() {
@@ -33,8 +22,13 @@ class CirculoTinte {
   mover(notaMidi, haySonido, durSonido, umbralDuracionSonido) {
       
     if (haySonido == true && durSonido >= umbralDuracionSonido){
+        this.estado = "mover";
+      }else{
+        this.estado = "quieto";
+      }
+    if (this.estado == "mover"){
       this.dir += radians(random(-this.variacionAngular, this.variacionAngular));
-      let mapMidi = map(notaMidi, 50,73,0,1);
+      let mapMidi = map(notaMidi, 48,76,0,1);
       let dx = (this.vel * mapMidi) * cos(this.dir) * deltaTime/30;
       let dy = (this.vel * mapMidi) * sin(this.dir) * deltaTime/30;
       this.posXCirculosTinte += dx;
@@ -44,9 +38,8 @@ class CirculoTinte {
       this.posXCirculosTinte = ( this.posXCirculosTinte < 0 ? this.posXCirculosTinte+width : this.posXCirculosTinte );
       this.posYCirculosTinte = ( this.posYCirculosTinte > height ? this.posYCirculosTinte-height : this.posYCirculosTinte );
       this.posYCirculosTinte = ( this.posYCirculosTinte < 0 ? this.posYCirculosTinte+height : this.posYCirculosTinte );
-      }else{
-        this.posXCirculosTinte = this.posXCirculosTinte;
-        this.posYCirculosTinte = this.posYCirculosTinte;
-      }
+    }else if (this.estado == "quieto"){
+      null;
+    }
   }
 }
